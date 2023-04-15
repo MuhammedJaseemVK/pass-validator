@@ -4,16 +4,42 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Home() {
-  const [admissionNo, setadmissionNo] = useState('')
+  const [admissionNo, setadmissionNo] = useState('');
+  const [studentData, setstudentData] = useState(null);
+  // const [student_name, setstudent_name] = useState('');
+  
 
-  async function submitHandler(e) {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(admissionNo)
-  }
+ 
+    // try{
+    //   const url ='https://app.conext.in/bus_pass/checker/&query=$(admissioNo)';
+    //   const response = await fetch(url);
+    //   const data = response.json();
+    //   console.log(response.data);
+    //   setadmissionNo(data.results);
+    // }
+    // catch (error) {
+    //   console.log(error)
+    // }
+    
+    fetch("https://app.conext.in/bus_pass/checker/",{
+      method:"POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({ pass_id: admissionNo }),
+    })
+    .then((response)=> response.json())
+    .then((data) => setstudentData(data));
+    console.log(studentData);
+    // {
+    //   items?.map(item => (
+    //     <li key={item.id}>
+    //       {item.name}
+    //     </li>
+    //   ))
+    // }
+  };
 
-  async function scanMe () {
-    console.log('hello')
-  }
 
   return (
     <div className='h-screen bg-[#213458] relative text-black'>
@@ -40,14 +66,43 @@ export default function Home() {
 
             {/* Buttons */}
             <div>
-              <button type='button' onClick={scanMe} className="btn btn-primary">Scan
+              {/* <button className="btn btn-primary">Scan
                 <MdOutlineQrCode />
-              </button>
+              </button> */}
               <button type='submit' className='btn btn-secondary'>
                 Submit
                 <MdArrowForward />
               </button>
             </div>
+
+            {/* Testing data */}
+          {studentData && (
+        <div className='text-xl'>
+            <p>PAss state: {studentData.Bus_Pass}</p>
+          {/* <div className='flex flex-row justify-between'>
+            <p>Student name:</p>
+              <p>a{studentData.student.student_name}</p>
+          </div> */}
+          {/* <div className='flex flex-row justify-between'>
+            <p>year of join:</p>
+              <p>a{studentData.student.year_of_join}</p>
+          </div>
+          <div className='flex flex-row justify-between'>
+            <p>valid till:</p>
+              <p>a{studentData.student.valid_till}</p>
+          </div>
+          <div className='flex flex-row justify-between'>
+            <p>bus stop:</p>
+              <p>a{studentData.student.boarding_place}</p>
+          </div>
+          <div className='flex flex-row justify-between'>
+              <p>bus stop:</p>
+              <p>a{studentData.student.pass_id}</p>
+          </div>
+           */}
+
+        </div>
+        )}
       </form>
     </div>
 
