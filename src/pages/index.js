@@ -7,8 +7,20 @@ import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 import Image from 'next/image';
 import { useState } from 'react';
 import axios from "axios";
+import QrScanner from './Components/QrScanner';
+
+
+
+  
+
+  
+
+{/* <Button onClick={() => qrButtonClick()}>Click Parent</Button> */}
+
+
 
 export default function Home() {
+  const [qrSelected, setqrSelected] = useState('false')
   const [admissionNo, setadmissionNo] = useState('');
   const [studentData, setstudentData] = useState(null);
   const [validity, setvalidity] = useState('');
@@ -16,7 +28,11 @@ export default function Home() {
   const [submitClicked, setsubmitClicked] = useState('false')
 
   
-
+  const qrButtonClick = () => {
+    setqrSelected('true')
+    // setData(studentData);
+    
+  }
   const submitHandler = async (e) => {
     e.preventDefault();
     setsubmitClicked('true');
@@ -53,7 +69,9 @@ export default function Home() {
   return (
     <div className='h-screen bg-[#213458] relative text-black'>
 
-      {submitClicked === 'true' && (
+      
+        
+      {(submitClicked === 'true') && (
         <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white p-2 text-xl gap-2' >
           <MdArrowBack />
           <button>Back
@@ -68,7 +86,8 @@ export default function Home() {
       </div>
 
 
-      <div className="bg-white absolute bottom-0 left-0 w-full py-8 rounded-t-2xl px-10 flex flex-col gap-2">
+      <div className="bg-white absolute bottom-0 left-0 w-full py-8 rounded-t-2xl px-10 flex flex-col gap-10">
+
         {submitClicked === 'false' && (
         <form onSubmit={submitHandler}>
           <div>
@@ -84,16 +103,19 @@ export default function Home() {
             <div className='w-1/2 h-[1px] bg-black'></div>
           </div>
 
-          {/* Buttons */}
-          <div>
-            {/* <button className="btn btn-primary">Scan
-              <MdOutlineQrCode />
-            </button> */}
+
+            {/* test qr code */}
+            <div onClick={qrButtonClick}>
+              <QrScanner />
+            </div>
+
+                  
             <button type='submit' className='btn btn-secondary'>
               Submit
               <MdArrowForward />
             </button>
-          </div>
+          
+          
         </form>
         )}
           {(validity==='profile') && (submitClicked==='true') && (
@@ -147,9 +169,12 @@ export default function Home() {
             <AiFillExclamationCircle className='text-red-500' />       
           </div>
         )}
+
+          
+
       </div>
 
-    </div>
+      </div>
 
   )
 }
