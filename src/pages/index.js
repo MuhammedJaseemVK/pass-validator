@@ -1,5 +1,9 @@
-import { MdOutlineQrCode } from 'react-icons/md';
-import { MdArrowForward } from 'react-icons/md'
+import { MdArrowBack, MdOutlineQrCode } from 'react-icons/md';
+import { AiOutlineClose } from 'react-icons/ai';
+import { MdArrowForward } from 'react-icons/md';
+import { ImHappy2 } from 'react-icons/im';
+import { ImSad2 } from 'react-icons/im';
+import { AiFillCheckCircle } from 'react-icons/ai';
 import Image from 'next/image';
 import { useState } from 'react';
 import axios from "axios";
@@ -10,7 +14,7 @@ export default function Home() {
   const [validity, setvalidity] = useState('');
   const [error, seterror] = useState('');
   const [submitClicked, setsubmitClicked] = useState('false')
-  // const [student_name, setstudent_name] = useState('');
+
   
 
   const submitHandler = async (e) => {
@@ -48,6 +52,16 @@ export default function Home() {
 
   return (
     <div className='h-screen bg-[#213458] relative text-black'>
+
+      {submitClicked === 'true' && (
+        <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white' >
+          <MdArrowBack />
+          <button className="text-sm">Back
+          </button>
+        </div>
+      )}
+
+
       {/* Logo */}
       <div className='w-full h-3/4 flex items-center'>
         <Image src="/pass-validator-logo.png" alt="logo" width='250' height='250' className='mx-auto' />
@@ -84,7 +98,13 @@ export default function Home() {
         )}
           {(validity==='profile') && (submitClicked==='true') && (
         <div className='text-xl'>
-            <p>PAss state: {studentData.Bus_Pass}</p>
+            <div className='w-full flex items-center justify-center gap-2'>
+              <div className="text-2xl">{studentData.Bus_Pass}</div>
+              {studentData.Bus_Pass ==='Valid Pass' ?
+                  <AiFillCheckCircle className='text-green-500' />
+                  : <AiFillCheckCircle className='text-red-500' />       
+              } 
+            </div>
           <div className='flex flex-row justify-between'>
             <p>Student name:</p>
               <p>{studentData.student.student_name}</p>
@@ -105,7 +125,19 @@ export default function Home() {
               <p>bus stop:</p>
               <p>{studentData.student.pass_id}</p>
           </div>
-          
+            {studentData.Bus_Pass ==='Valid Pass' ?
+              <div>
+                <ImHappy2 className='text-8xl text-green-500 mx-auto' />
+              </div>
+              : <div>
+                <ImSad2 className='text-8xl text-red-500 mx-auto' />
+              </div>            
+            }
+          <div>
+              <button onClick={ () => setsubmitClicked('false')} className="btn btn-secondary">Close
+                <AiOutlineClose />
+              </button>
+          </div>
 
         </div>
         )}
