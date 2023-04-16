@@ -9,11 +9,13 @@ export default function Home() {
   const [studentData, setstudentData] = useState(null);
   const [validity, setvalidity] = useState('');
   const [error, seterror] = useState('');
+  const [submitClicked, setsubmitClicked] = useState('false')
   // const [student_name, setstudent_name] = useState('');
   
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setsubmitClicked('true');
   {
       seterror({ type: false, message: null });
       axios
@@ -52,34 +54,35 @@ export default function Home() {
       </div>
 
 
-      {/* Bottom Area */}
-      <form onSubmit={submitHandler} className="bg-white absolute bottom-0 left-0 w-full py-8 rounded-t-2xl px-10 flex flex-col gap-2">
-            <div>
-              <div className="text-md">Admission No</div>
-              <input type="text" className="bg-[#7E7A7A] p-2 rounded-md w-full" placeholder="Admission No" required={true} value={admissionNo} onChange={e => setadmissionNo(e.target.value)} />
-            </div>
+      <div className="bg-white absolute bottom-0 left-0 w-full py-8 rounded-t-2xl px-10 flex flex-col gap-2">
+        {submitClicked === 'false' && (
+        <form onSubmit={submitHandler}>
+          <div>
+            <div className="text-md">Admission No</div>
+            <input type="text" className="bg-[#7E7A7A] p-2 rounded-md w-full" placeholder="Admission No" required={true} value={admissionNo} onChange={e => setadmissionNo(e.target.value)} />
+          </div>
             
 
-            {/* OR Bar */}
-            <div className="flex flex-row justify-between items-center">
-              <div className='w-1/2 h-[1px] bg-black'></div>
-              <p className="mx-2">OR</p>
-              <div className='w-1/2 h-[1px] bg-black'></div>
-            </div>
+          {/* OR Bar */}
+          <div className="flex flex-row justify-between items-center">
+            <div className='w-1/2 h-[1px] bg-black'></div>
+            <p className="mx-2">OR</p>
+            <div className='w-1/2 h-[1px] bg-black'></div>
+          </div>
 
-            {/* Buttons */}
-            <div>
-              {/* <button className="btn btn-primary">Scan
-                <MdOutlineQrCode />
-              </button> */}
-              <button type='submit' className='btn btn-secondary'>
-                Submit
-                <MdArrowForward />
-              </button>
-            </div>
-
-            {/* Testing data */}
-          {studentData && (
+          {/* Buttons */}
+          <div>
+            {/* <button className="btn btn-primary">Scan
+              <MdOutlineQrCode />
+            </button> */}
+            <button type='submit' className='btn btn-secondary'>
+              Submit
+              <MdArrowForward />
+            </button>
+          </div>
+        </form>
+        )}
+          {(validity==='profile') && (submitClicked==='true') && (
         <div className='text-xl'>
             <p>PAss state: {studentData.Bus_Pass}</p>
           <div className='flex flex-row justify-between'>
@@ -106,7 +109,8 @@ export default function Home() {
 
         </div>
         )}
-      </form>
+      </div>
+
     </div>
 
   )
