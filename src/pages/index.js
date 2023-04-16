@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { MdArrowForward } from 'react-icons/md';
 import { ImHappy2 } from 'react-icons/im';
 import { ImSad2 } from 'react-icons/im';
-import { AiFillCheckCircle } from 'react-icons/ai';
+import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 import Image from 'next/image';
 import { useState } from 'react';
 import axios from "axios";
@@ -54,7 +54,7 @@ export default function Home() {
     <div className='h-screen bg-[#213458] relative text-black'>
 
       {submitClicked === 'true' && (
-        <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white' >
+        <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white p-2 text-base gap-2' >
           <MdArrowBack />
           <button className="text-sm">Back
           </button>
@@ -140,6 +140,12 @@ export default function Home() {
           </div>
 
         </div>
+        )}
+        { (validity==='invalid') && (submitClicked==='true') && (
+          <div className='w-full flex items-center justify-center gap-2'>
+            <p className='text-2xl'>No such pass alloted</p>
+            <AiFillExclamationCircle className='text-red-500' />       
+          </div>
         )}
       </div>
 
