@@ -20,6 +20,7 @@ import QrScanner from './Components/QrScanner';
 
 
 export default function Home() {
+  const [Data, setData] = useState('')
   const [qrSelected, setqrSelected] = useState('false')
   const [admissionNo, setadmissionNo] = useState('');
   const [studentData, setstudentData] = useState(null);
@@ -29,8 +30,7 @@ export default function Home() {
 
   
   const qrButtonClick = () => {
-    setqrSelected('true')
-    // setData(studentData);
+    setqrSelected('true');
     
   }
   const submitHandler = async (e) => {
@@ -69,8 +69,6 @@ export default function Home() {
   return (
     <div className='h-screen bg-[#213458] relative text-black'>
 
-      
-        
       {(submitClicked === 'true') && (
         <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white p-2 text-xl gap-2' >
           <MdArrowBack />
@@ -104,6 +102,7 @@ export default function Home() {
           </div>
 
 
+
             {/* test qr code */}
             <div onClick={qrButtonClick}>
               <QrScanner />
@@ -118,6 +117,9 @@ export default function Home() {
           
         </form>
         )}
+
+        { (qrSelected ==='false') && ( 
+          <div>
           {(validity==='profile') && (submitClicked==='true') && (
         <div className='text-xl'>
             <div className='w-full flex items-center justify-center gap-2'>
@@ -163,10 +165,17 @@ export default function Home() {
 
         </div>
         )}
+        </div>
+        )}
+
+        {(qrSelected === 'false') && (
+          <div>
         { (validity==='invalid') && (submitClicked==='true') && (
           <div className='w-full flex items-center justify-center gap-2'>
             <p className='text-2xl'>No such pass alloted</p>
             <AiFillExclamationCircle className='text-red-500' />       
+          </div>
+        )}
           </div>
         )}
 
