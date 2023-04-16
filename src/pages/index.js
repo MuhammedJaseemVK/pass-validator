@@ -2,42 +2,45 @@ import { MdOutlineQrCode } from 'react-icons/md';
 import { MdArrowForward } from 'react-icons/md'
 import Image from 'next/image';
 import { useState } from 'react';
+import axios from "axios";
 
 export default function Home() {
   const [admissionNo, setadmissionNo] = useState('');
   const [studentData, setstudentData] = useState(null);
+  const [validity, setvalidity] = useState('');
+  const [error, seterror] = useState('');
   // const [student_name, setstudent_name] = useState('');
   
 
   const submitHandler = async (e) => {
     e.preventDefault();
- 
-    // try{
-    //   const url ='https://app.conext.in/bus_pass/checker/&query=$(admissioNo)';
-    //   const response = await fetch(url);
-    //   const data = response.json();
-    //   console.log(response.data);
-    //   setadmissionNo(data.results);
-    // }
-    // catch (error) {
-    //   console.log(error)
-    // }
-    
-    fetch("https://app.conext.in/bus_pass/checker/",{
-      method:"POST",
-      headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({ pass_id: admissionNo }),
-    })
-    .then((response)=> response.json())
-    .then((data) => setstudentData(data));
-    console.log(studentData);
-    // {
-    //   items?.map(item => (
-    //     <li key={item.id}>
-    //       {item.name}
-    //     </li>
-    //   ))
-    // }
+  {
+      seterror({ type: false, message: null });
+      axios
+        .post(
+          "https://app.conext.in/bus_pass/checker/",
+          { pass_id: admissionNo },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        )
+        .then((response) => {
+          setstudentData(response?.data);
+          if (response?.data?.Bus_Pass === "No Such Pass Alloted") {
+            setvalidity("invalid");
+          } else {
+            setvalidity("profile");
+          }
+        })
+        .catch(() => {
+          seterror({ type: true, message: "Something went wrong" });
+          setvalidity("verification");
+        })
+        
+    }
+
   };
 
 
@@ -79,27 +82,27 @@ export default function Home() {
           {studentData && (
         <div className='text-xl'>
             <p>PAss state: {studentData.Bus_Pass}</p>
-          {/* <div className='flex flex-row justify-between'>
+          <div className='flex flex-row justify-between'>
             <p>Student name:</p>
-              <p>a{studentData.student.student_name}</p>
-          </div> */}
-          {/* <div className='flex flex-row justify-between'>
+              <p>{studentData.student.student_name}</p>
+          </div>
+          <div className='flex flex-row justify-between'>
             <p>year of join:</p>
-              <p>a{studentData.student.year_of_join}</p>
+              <p>{studentData.student.year_of_join}</p>
           </div>
           <div className='flex flex-row justify-between'>
             <p>valid till:</p>
-              <p>a{studentData.student.valid_till}</p>
+              <p>{studentData.student.valid_till}</p>
           </div>
           <div className='flex flex-row justify-between'>
             <p>bus stop:</p>
-              <p>a{studentData.student.boarding_place}</p>
+              <p>{studentData.student.boarding_place}</p>
           </div>
           <div className='flex flex-row justify-between'>
               <p>bus stop:</p>
-              <p>a{studentData.student.pass_id}</p>
+              <p>{studentData.student.pass_id}</p>
           </div>
-           */}
+          
 
         </div>
         )}
