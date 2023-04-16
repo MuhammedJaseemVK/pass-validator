@@ -54,9 +54,9 @@ export default function Home() {
     <div className='h-screen bg-[#213458] relative text-black'>
 
       {submitClicked === 'true' && (
-        <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white p-2 text-base gap-2' >
+        <div onClick={() => setsubmitClicked('false')} className='flex flex-row items-center text-white p-2 text-xl gap-2' >
           <MdArrowBack />
-          <button className="text-sm">Back
+          <button>Back
           </button>
         </div>
       )}
