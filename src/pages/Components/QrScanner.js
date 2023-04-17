@@ -11,6 +11,7 @@ import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 
 const QRScanner = () => {
     const [qrData, setQRData] = useState(null);
+    const [scanClicked, setscanClicked] = useState('false')
     const [validity, setValidity] = useState('verification');
     const [studentData, setStudentData] = useState({});
     const [error, setError] = useState({ type: false, message: null });
@@ -19,6 +20,7 @@ const QRScanner = () => {
     const scanQRCode = async () => {
         try {
             const qrScanner = new QrScanner(videoRef.current, (result) => {
+                setscanClicked('true');
                 setQRData(result);
                 qrScanner.stop();
                 checkBusPass(result);
@@ -104,11 +106,7 @@ const QRScanner = () => {
                             <ImSad2 className='text-8xl text-red-500 mx-auto' />
                         </div>
                     }
-                    <div>
-                        <button onClick={() => setsubmitClicked('false')} className="btn btn-secondary">Close
-                            <AiOutlineClose />
-                        </button>
-                    </div>
+                    
                     
                 </div>
             )}
@@ -116,15 +114,17 @@ const QRScanner = () => {
                 <div className='w-full flex items-center justify-center gap-2'>
                     <p className='text-2xl'>No such pass alloted</p>
                     <AiFillExclamationCircle className='text-red-500' />
-                    <div>
-                        <button onClick={() => setsubmitClicked('false')} className="btn btn-secondary">Close
-                            <AiOutlineClose />
-                        </button>
-                    </div>
+                    
                 </div>
             )}
             
-
+            { (scanClicked==='true') && (
+            <div>
+                <button onClick={() => location.reload() } className="btn btn-secondary">Close
+                    <AiOutlineClose />
+                </button>
+            </div>
+            )}
             {error.type && <p>{error.message}</p>}
         </>
     );
