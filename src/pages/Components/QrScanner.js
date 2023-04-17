@@ -16,9 +16,11 @@ const QRScanner = () => {
     const [studentData, setStudentData] = useState({});
     const [error, setError] = useState({ type: false, message: null });
     const videoRef = useRef();
+    const [showProfile, setshowProfile] = useState('false')
 
     const scanQRCode = async () => {
         try {
+            setshowProfile('true');
             const qrScanner = new QrScanner(videoRef.current, (result) => {
                 setscanClicked('true');
                 setQRData(result);
@@ -63,7 +65,7 @@ const QRScanner = () => {
             <div>
                 <video ref={videoRef} />
             </div>
-            { scanClicked==='false' && (
+            { showProfile ==='false' && (
                 <button onClick={scanQRCode} className="btn btn-primary">
                     Scan
                     <MdOutlineQrCode />
@@ -120,7 +122,7 @@ const QRScanner = () => {
             
             { (scanClicked==='true') && (
             <div>
-                <button onClick={() => location.reload() } className="btn btn-secondary">Close
+                <button onClick={() => {location.reload();setshowProfile('false')} } className="btn btn-secondary">Close
                     <AiOutlineClose />
                 </button>
             </div>

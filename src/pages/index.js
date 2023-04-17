@@ -27,17 +27,20 @@ export default function Home() {
   const [validity, setvalidity] = useState('');
   const [error, seterror] = useState('');
   const [submitClicked, setsubmitClicked] = useState('false')
+  const [showProfile, setshowProfile] = useState('false')
 
   
   const qrButtonClick = () => {
     setqrSelected('true');
     setsubmitClicked('false');
+    setshowProfile('true');
     
   }
   const submitHandler = async (e) => {
     e.preventDefault();
     setsubmitClicked('true');
     setqrSelected('false');
+    setshowProfile('true');
   {
       seterror({ type: false, message: null });
       axios
@@ -88,7 +91,7 @@ export default function Home() {
 
       <div className="bg-white absolute bottom-0 left-0 w-full py-8 rounded-t-2xl px-10 flex flex-col gap-10">
 
-        {submitClicked === 'false' && (
+        {showProfile === 'false' && (
         <form onSubmit={submitHandler}>
           <div>
             <div className="text-md">Admission No</div>
@@ -159,7 +162,7 @@ export default function Home() {
               </div>            
             }
           <div>
-              <button onClick={ () => setsubmitClicked('false')} className="btn btn-secondary">Close
+                  <button onClick={() => { location.reload(); setshowProfile('false') }} className="btn btn-secondary">Close
                 <AiOutlineClose />
               </button>
           </div>
