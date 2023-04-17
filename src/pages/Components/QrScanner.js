@@ -9,18 +9,18 @@ import { ImHappy2 } from 'react-icons/im';
 import { ImSad2 } from 'react-icons/im';
 import { AiFillCheckCircle, AiFillExclamationCircle } from 'react-icons/ai';
 
-const QRScanner = () => {
+const QRScanner = (props) => {
     const [qrData, setQRData] = useState(null);
     const [scanClicked, setscanClicked] = useState('false')
     const [validity, setValidity] = useState('verification');
     const [studentData, setStudentData] = useState({});
     const [error, setError] = useState({ type: false, message: null });
     const videoRef = useRef();
-    const [showProfile, setshowProfile] = useState('false')
+    const [showProfile, setshowProfile] = useState('false');
 
     const scanQRCode = async () => {
         try {
-            setshowProfile('true');
+            setshowProfile(true);
             const qrScanner = new QrScanner(videoRef.current, (result) => {
                 setscanClicked('true');
                 setQRData(result);
@@ -65,7 +65,7 @@ const QRScanner = () => {
             <div>
                 <video ref={videoRef} />
             </div>
-            { showProfile ==='false' && (
+            { (!props.value) && (
                 <button onClick={scanQRCode} className="btn btn-primary">
                     Scan
                     <MdOutlineQrCode />
@@ -122,7 +122,7 @@ const QRScanner = () => {
             
             { (scanClicked==='true') && (
             <div>
-                <button onClick={() => {location.reload();setshowProfile('false')} } className="btn btn-secondary">Close
+                <button onClick={() => {location.reload();setshowProfile(false)} } className="btn btn-secondary">Close
                     <AiOutlineClose />
                 </button>
             </div>
