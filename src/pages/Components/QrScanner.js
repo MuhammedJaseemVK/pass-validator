@@ -63,7 +63,7 @@ const QRScanner = () => {
             <div>
                 <video ref={videoRef} />
             </div>
-            {validity === 'verification' && (
+            { scanClicked==='false' && (
                 <button onClick={scanQRCode} className="btn btn-primary">
                     Scan
                     <MdOutlineQrCode />

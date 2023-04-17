@@ -31,11 +31,13 @@ export default function Home() {
   
   const qrButtonClick = () => {
     setqrSelected('true');
+    setsubmitClicked('false');
     
   }
   const submitHandler = async (e) => {
     e.preventDefault();
     setsubmitClicked('true');
+    setqrSelected('false');
   {
       seterror({ type: false, message: null });
       axios
@@ -101,14 +103,6 @@ export default function Home() {
             <div className='w-1/2 h-[1px] bg-black'></div>
           </div>
 
-
-
-            {/* test qr code */}
-            <div onClick={qrButtonClick}>
-              <QrScanner />
-            </div>
-
-                  
             <button type='submit' className='btn btn-secondary'>
               Submit
               <MdArrowForward />
@@ -117,6 +111,13 @@ export default function Home() {
           
         </form>
         )}
+
+        {/* test qr code */}
+        
+        <div onClick={qrButtonClick}>
+          <QrScanner />
+        </div>
+        
 
         { (qrSelected ==='false') && ( 
           <div>
